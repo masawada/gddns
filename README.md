@@ -8,4 +8,4 @@ Gehirn DNS A Records Updater
 + Running to gddns `gddns`
 
 ## License
-+ MIT License. (Please read `LICENSE`)
++ MIT License (Please read `LICENSE`)
