@@ -10,3 +10,11 @@ log = Logger.new("log/gddns.log")
 log.level = Logger::WARN
 
 # Get Domain ID & Resource ID
+
+begin
+  config.each{
+    
+  }
+rescue
+  
+end
