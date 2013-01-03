@@ -1,5 +1,6 @@
 # gddns
 Gehirn DNS A Records Updater
+(use Gehirn DNS as Dynamic Domain Name System)
 
 ## Usage
 + `gem install rest-client`
