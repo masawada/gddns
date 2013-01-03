@@ -40,8 +40,8 @@ begin
   }
 rescue RestClient::ResourceNotFound
   puts "Error: 404 Resource Not Found."
-  puts "You must recomfirm config file or ARGV."
-  log.warn("404 Resource Not Found. You must reconfirm config file or ARGV.")
+  puts "You must recomfirm config file"
+  log.warn("404 Resource Not Found. You must reconfirm config file.")
   exit
 rescue => e
   puts e
@@ -64,13 +64,13 @@ domains.each{|d|
       end
     rescue RestClient::BadRequest
       puts "Error: 400 Bad Request"
-      puts "You must recomfirm config file or ARGV."
-      log.warn("400 Bad Request. You must reconfirm config file or ARGV.")
+      puts "You must recomfirm config file."
+      log.warn("400 Bad Request. You must reconfirm config file.")
       exit
     rescue RestClient::ResourceNotFound
       puts "Error: 404 Resource Not Found."
-      puts "You must recomfirm config file or ARGV."
-      log.warn("404 Resource Not Found. You must reconfirm config file or ARGV.")
+      puts "You must recomfirm config file."
+      log.warn("404 Resource Not Found. You must reconfirm config file.")
       exit
     rescue => e
       puts e
