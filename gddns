@@ -3,7 +3,7 @@
 require "logger"
 require "json"
 
-require_relative "lib/rest.rb"
+require_relative "lib/restclient.rb"
 require_relative "conf/config.rb"
 config = $config
 log = Logger.new("log/gddns.log")
@@ -12,9 +12,7 @@ log.level = Logger::WARN
 # Get Domain ID & Resource ID
 
 begin
-  config.each{
-    
-  }
+  
 rescue
   
 end
