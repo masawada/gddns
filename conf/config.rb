@@ -4,8 +4,9 @@ $config = [{
   :token => '',
   :secret => '',
   :domain => '',
-  :records => [{
-    :record => '',
-    :ip => ''
-  }]
+  :records => {
+    "" => {
+      :ip => nil
+    }
+  }
 }]
