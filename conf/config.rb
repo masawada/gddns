@@ -5,7 +5,7 @@ $config = [{
   :secret => '',
   :domain => '',
   :records => {
-    "" => {
+    '' => {
       :ip => nil
     }
   }
