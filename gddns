@@ -17,23 +17,24 @@ begin
   config.each{|c|
     records = []
     req = "https://#{c[:token]}:#{c[:secret]}@cp.gehirn.jp/api/dns/resource/#{c[:domain]}"
-    raw_res = RestClient.get(req)
+    raw_res = RestClient.get(req, {:accept => :json})
     res = JSON.parse(raw_res)
 
     res["Resource"]["A"].each{|r|
-      p c[:records][r["Name"]]
       if c[:records][r["Name"]] != nil then
         records << {
           :resourceid => r["ID"],
           :name => r["Name"],
-          :ttl => r["TTL"],
           :oldip => r["IPAddress"],
-          :newip => c[:records][r["Name"]][:ip]
+          :newip => c[:records][r["Name"]][:ip],
+          :hostname => c[:records][r["Name"]][:hostname]
         }
       end
     }
 
     domains << {
+      :token => c[:token],
+      :secret => c[:secret],
       :domainid => res["Domain"]["ID"],
       :records => records
     }
@@ -42,8 +43,50 @@ rescue RestClient::ResourceNotFound
   puts "Error: 404 Resource Not Found."
   puts "You must recomfirm config file or ARGV."
   log.warn("404 Resource Not Found. You must reconfirm config file or ARGV.")
+  exit
 rescue => e
   puts e
   log.fatal("Unknown error; exiting")
   log.fatal(e)
+  exit
 end
+
+domains.each{|d|
+  d[:records].each{|r|
+    req = "https://#{d[:token]}:#{d[:secret]}@cp.gehirn.jp/api/dns/resource/#{d[:domainid]}/#{r[:resourceid]}"
+
+    begin
+      if r[:newip] == nil then
+        payload = JSON.generate({:Resource => {:HostName => r[:hostname], :IPAddress => "auto"}})
+        raw_res = RestClient.put(req, payload, {:content_type => :json, :accept => :json})
+      else
+        payload = JSON.generate({:Resource => {:HostName => r[:hostname],:IPAddress => r[:newip]}})
+        raw_res = RestClient.put(req, payload, {:content_type => :json, :accept => :json})
+      end
+    rescue RestClient::BadRequest
+      puts "Error: 400 Bad Request"
+      puts "You must recomfirm config file or ARGV."
+      log.warn("400 Bad Request. You must reconfirm config file or ARGV.")
+      exit
+    rescue RestClient::ResourceNotFound
+      puts "Error: 404 Resource Not Found."
+      puts "You must recomfirm config file or ARGV."
+      log.warn("404 Resource Not Found. You must reconfirm config file or ARGV.")
+      exit
+    rescue => e
+      puts e
+      exit
+    end
+
+    res = JSON.parse(raw_res)
+    if res["Updated"] == true then
+      puts "Update successfully."
+      puts "  Name: #{res["Resource"]["Name"]}"
+      puts "  IP: #{res["Resource"]["IPAddress"]}"
+      log.info("Update successfully.")
+    else
+      puts "Not Updated."
+      log.info("Update not successfully.")
+    end
+  }
+}
