@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 require "logger"
 require "json"
+require "rest-client"
 
-require_relative "lib/restclient.rb"
+#require_relative "lib/restclient.rb"
 require_relative "conf/config.rb"
 config = $config
 log = Logger.new("log/gddns.log")
@@ -12,7 +13,37 @@ log.level = Logger::WARN
 # Get Domain ID & Resource ID
 
 begin
-  
-rescue
-  
+  domains = []
+  config.each{|c|
+    records = []
+    req = "https://#{c[:token]}:#{c[:secret]}@cp.gehirn.jp/api/dns/resource/#{c[:domain]}"
+    raw_res = RestClient.get(req)
+    res = JSON.parse(raw_res)
+
+    res["Resorce"]["A"].each{|r|
+      if c[:records][r["Name"]] != nil then
+        records.add({
+          :resourceid => r["ID"],
+          :name => r["Name"],
+          :ttl => r["TTL"],
+          :oldip => r["IPAddress"],
+          :newip => c[:records][r["Name"]][:ip]
+        })
+      end
+    }
+
+    domains.add({
+      :domainid => res["Domain"]["ID"],
+      :records => records
+    })
+  }
+  p domains
+rescue RestClient::ResourceNotFound
+  puts "Error: 404 Resource Not Found."
+  puts "You must recomfirm config file or ARGV."
+  log.warn("404 Resource Not Found. You must reconfirm config file or ARGV.")
+rescue => e
+  puts e
+  log.fatal("Unknown error; exiting")
+  log.fatal(e)
 end
