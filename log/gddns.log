@@ -1,0 +1,27 @@
+F, [2013-01-03T17:05:48.475120 #48660] FATAL -- : Unknown error; exiting
+F, [2013-01-03T17:05:48.477212 #48660] FATAL -- : undefined method `[]' for nil:NilClass (NoMethodError)
+./gddns:23:in `block in <main>'
+./gddns:17:in `each'
+./gddns:17:in `<main>'
+F, [2013-01-03T17:06:56.761132 #48874] FATAL -- : Unknown error; exiting
+F, [2013-01-03T17:06:56.761345 #48874] FATAL -- : undefined method `[]' for nil:NilClass (NoMethodError)
+./gddns:23:in `block in <main>'
+./gddns:17:in `each'
+./gddns:17:in `<main>'
+F, [2013-01-03T17:07:42.599762 #48953] FATAL -- : Unknown error; exiting
+F, [2013-01-03T17:07:42.599938 #48953] FATAL -- : undefined method `add' for []:Array (NoMethodError)
+./gddns:36:in `block in <main>'
+./gddns:17:in `each'
+./gddns:17:in `<main>'
+F, [2013-01-03T17:08:20.543305 #49058] FATAL -- : Unknown error; exiting
+F, [2013-01-03T17:08:20.543463 #49058] FATAL -- : undefined method `add' for []:Array (NoMethodError)
+./gddns:26:in `block (2 levels) in <main>'
+./gddns:23:in `each'
+./gddns:23:in `block in <main>'
+./gddns:17:in `each'
+./gddns:17:in `<main>'
+F, [2013-01-03T17:08:37.781867 #49121] FATAL -- : Unknown error; exiting
+F, [2013-01-03T17:08:37.782021 #49121] FATAL -- : undefined method `add' for []:Array (NoMethodError)
+./gddns:36:in `block in <main>'
+./gddns:17:in `each'
+./gddns:17:in `<main>'

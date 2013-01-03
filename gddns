@@ -20,24 +20,24 @@ begin
     raw_res = RestClient.get(req)
     res = JSON.parse(raw_res)
 
-    res["Resorce"]["A"].each{|r|
+    res["Resource"]["A"].each{|r|
+      p c[:records][r["Name"]]
       if c[:records][r["Name"]] != nil then
-        records.add({
+        records << {
           :resourceid => r["ID"],
           :name => r["Name"],
           :ttl => r["TTL"],
           :oldip => r["IPAddress"],
           :newip => c[:records][r["Name"]][:ip]
-        })
+        }
       end
     }
 
-    domains.add({
+    domains << {
       :domainid => res["Domain"]["ID"],
       :records => records
-    })
+    }
   }
-  p domains
 rescue RestClient::ResourceNotFound
   puts "Error: 404 Resource Not Found."
   puts "You must recomfirm config file or ARGV."
