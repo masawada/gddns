@@ -4,7 +4,6 @@ require "logger"
 require "json"
 require "rest-client"
 
-#require_relative "lib/restclient.rb"
 require_relative "conf/config.rb"
 config = $config
 log = Logger.new("log/gddns.log")
@@ -81,8 +80,8 @@ domains.each{|d|
     res = JSON.parse(raw_res)
     if res["Updated"] == true then
       puts "Update successfully."
-      puts "  Name: #{res["Resource"]["Name"]}"
-      puts "  IP: #{res["Resource"]["IPAddress"]}"
+      puts " Name: #{res["Resource"]["Name"]}"
+      puts "   IP: #{res["Resource"]["IPAddress"]}"
       log.info("Update successfully.")
     else
       puts "Not Updated."
